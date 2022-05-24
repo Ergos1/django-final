@@ -2,14 +2,6 @@ from rest_framework.decorators import action
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny 
-from django.contrib.auth import login, logout, authenticate
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView
-)
-
-
 from api.models import *
 from api.permissions import IsAdmin
 from api.serializers import *
@@ -77,7 +69,7 @@ class BookViewSet(viewsets.ViewSet):
 class JournalViewSet(viewsets.ViewSet):
     queryset = Journal.objects.all()
     serializer_class = JournalSerializer
-    permission_classes = []
+    permission_classes = [IsAdmin]
 
     def list(self, request):
         journals = Journal.objects.all()
