@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres
+    container_name: 'final-app-db'
+    env_file:
+      - ./.env
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+    - final_db
+  
+  app:
+    build:             
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: 'final-app'
+    command: python manage.py runserver 0.0.0.0:3000
+    depends_on:
+      - db
+    networks:
+    - final_db
+    ports:
+      - 127.0.0.1:3000:3000
+    env_file:
+      - ./.env
+    volumes:
+      - .:/usr/src/app
+
+networks:
+  final_db:
+    driver: bridge
