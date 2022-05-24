@@ -58,16 +58,16 @@ class BookViewSet(viewsets.ViewSet):
         serializer = BookSerializer(instance=book, data=request.data, many=False, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         book = Book.objects.get(pk=pk)
         serializer = BookSerializer(instance=book, data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, pk=None):
         book = Book.objects.get(pk=pk)
@@ -96,23 +96,23 @@ class JournalViewSet(viewsets.ViewSet):
         book = Journal.objects.get(pk=pk)
         serializer = JournalSerializer(book, many=False)
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk=None):
         book = Journal.objects.get(pk=pk)
         serializer = JournalSerializer(instance=book, data=request.data, many=False, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         book = Journal.objects.get(pk=pk)
         serializer = JournalSerializer(instance=book, data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, pk=None):
         book = Journal.objects.get(pk=pk)
